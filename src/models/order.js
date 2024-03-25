@@ -39,10 +39,14 @@ const OrderSchema = new mongoose.Schema({
 
     amount: {
         type: Number,
-        required: true
+        default: function(){ return this.quantity * this.price }, // Create
+        transform: function(){ return this.quantity * this.price }, // Update
     }
 
 }, {
     collection: 'orders',
     timestamps: true
 })
+
+// Model:
+module.exports = mongoose.model('Order', OrderSchema)
