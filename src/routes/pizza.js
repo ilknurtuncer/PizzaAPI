@@ -2,41 +2,23 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-const { mongoose } = require('../configs/dbConnection')
+const router = require('express').Router()
 /* ------------------------------------------------------- */
-// Pizza Model:
+// routes/pizza:
 
-const PizzaSchema = new mongoose.Schema({
+const pizza = require('../controllers/pizza')
 
-    name: {
-        type: String,
-        trim: true,
-        required: true,
-        unique: true,
-    },
+// URL: /pizzas
 
-    // image: {
-    //     type: String,
-    //     trim: true,
-    // },
-    image: String,
+router.route('/')
+    .get(pizza.list)
+    .post(pizza.create)
 
-    price: {
-        type: Number,
-        required: true,
-    },
+router.route('/:id')
+    .get(pizza.read)
+    .put(pizza.update)
+    .patch(pizza.update)
+    .delete(pizza.delete)
 
-    toppingIds: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Topping',
-        }
-    ]
-
-}, {
-    collection: 'pizzas',
-    timestamps: true
-})
-
-// Model:
-module.exports = mongoose.model('Pizza', PizzaSchema)
+/* ------------------------------------------------------- */
+module.exports = router
